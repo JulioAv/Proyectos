@@ -33,12 +33,6 @@ void __interrupt()isr(void){
     if(PIR1bits.SSPIF == 1){
 
         SSPCONbits.CKP = 0;
-        if(RA1==1){
-            val == pot;
-        }
-        else{
-            val == con;
-        }
        
         if ((SSPCONbits.SSPOV) || (SSPCONbits.WCOL)){
             z = SSPBUF;                 // Read the previous value to clear the buffer
@@ -73,12 +67,13 @@ void __interrupt()isr(void){
         ADIF = 0;
     }
     if(RBIF){
-        if(RB0 == 0){
+        if(RB0==0){
             con++;
         }
-        else if(RB1 == 0){
+        if(RB1==0){
             con--;
         }
+        RBIF = 0;
     }
 }
 
@@ -87,38 +82,40 @@ void setup(){
     ANSELH = 0x00;
     
     TRISA = 0x03;
-    TRISB = 0x00;
+    TRISB = 0x03;
     TRISC = 0x00;
     TRISD = 0x00;
     
     OSCCONbits.IRCF = 0B111;
     OSCCONbits.SCS = 1;
     OSCCONbits.OSTS = 0;
+    
     PWM_CONFIG();
     
-    INTCONbits.GIE = 1;
-    
-    if(RA1 == 1){
+    if(RA1 == 0){
         ADC_CONFIG(8);
         INTCONbits.PEIE = 1;
         PIE1bits.ADIE = 1;
-        I2C_Slave_Init(0x30);
+        INTCONbits.GIE = 1;
+        I2C_Slave_Init(0x50);
     }
-    else if(RA1 == 0){
+    else if(RA1 == 1){
         INTCONbits.RBIE = 1;
         IOCB = 0x03;
         OPTION_REGbits.nRBPU = 0;
         OPTION_REGbits.INTEDG = 1;
         WPUB = 0x03;
-        I2C_Slave_Init(0x50);
+        I2C_Slave_Init(0x30);
     }
+    
 }
 
 void main(void) {
     setup();
-    if(RA1 == 1){
+    if(RA1 == 0){
         while(1){
             ADC_IF();
+            val = pot;
             if(motor==0){
                 CCPR1L = (0x00>>1)+125;
             }
@@ -127,8 +124,9 @@ void main(void) {
             }
         }
     }
-    else if(RA1 == 0){
+    else if(RA1 == 1){
         while(1){
+           val = con;
            CCPR1L = (motor>>1)+125;
         }
     }
