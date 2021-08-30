@@ -69,7 +69,7 @@
    <POPUP w="114" x="158" flags="00000008" y="249" h="127" pid="7" iid="1">
     <PROPERTIES/>
    </POPUP>
-   <POPUP w="8" x="178" flags="80000002" y="269" h="8" pid="8" iid="1">
+   <POPUP w="8" x="178" flags="00000002" y="269" h="8" pid="8" iid="1">
     <PROPERTIES>
      <ITEM name="DataType">2</ITEM>
      <ITEM name="DispChars">Yes</ITEM>
@@ -115,7 +115,7 @@
    <POPUP w="114" x="278" flags="00000008" y="369" h="127" pid="7" iid="4">
     <PROPERTIES/>
    </POPUP>
-   <POPUP w="8" x="298" flags="80000002" y="389" h="8" pid="8" iid="4">
+   <POPUP w="8" x="298" flags="00000002" y="389" h="8" pid="8" iid="4">
     <PROPERTIES>
      <ITEM name="DataType">2</ITEM>
      <ITEM name="DispChars">Yes</ITEM>
@@ -161,7 +161,7 @@
    <POPUP w="114" x="398" flags="00000008" y="489" h="127" pid="7" iid="10">
     <PROPERTIES/>
    </POPUP>
-   <POPUP w="8" x="418" flags="80000002" y="509" h="8" pid="8" iid="10">
+   <POPUP w="8" x="418" flags="00000002" y="509" h="8" pid="8" iid="10">
     <PROPERTIES>
      <ITEM name="DataType">2</ITEM>
      <ITEM name="DispChars">Yes</ITEM>

@@ -17,6 +17,8 @@
 [v ___lwmod __lwmod `(ui  1 e 2 0 ]
 "10 C:\Program Files\Microchip\xc8\v2.31\pic\sources\c90\common\sprcadd.c
 [v ___fladd __fladd `(d  1 e 4 0 ]
+"15 C:\Program Files\Microchip\xc8\v2.31\pic\sources\c90\common\Umul16.c
+[v ___wmul __wmul `(ui  1 e 2 0 ]
 "4 C:\Program Files\Microchip\xc8\v2.31\pic\sources\c90\common\Umul8_16.c
 [v __Umul8_16 _Umul8_16 `(ui  1 e 2 0 ]
 "6 C:\Program Files\Microchip\xc8\v2.31\pic\sources\c90\pic\__eeprom.c
@@ -48,10 +50,12 @@
 "73
 [v _Lcd_Write_String Lcd_Write_String `(v  1 e 1 0 ]
 "33 C:\Users\swimm\Documents\U\6. Semestre\Digital\Proyectos\Proyectos\Test_Mast.X\Master_Test.c
+[v _my_delay_s my_delay_s `(uc  1 e 1 0 ]
+"40
 [v _Division Division `(v  1 e 1 0 ]
-"39
+"46
 [v _setup setup `(v  1 e 1 0 ]
-"59
+"66
 [v _main main `(v  1 e 1 0 ]
 "352 C:/Program Files/Microchip/MPLABX/v5.45/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\pic\include\proc\pic16f887.h
 [v _PORTD PORTD `VEuc  1 e 1 @8 ]
@@ -79,20 +83,20 @@
 [v _TRISCbits TRISCbits `VES35  1 e 1 @135 ]
 "1602
 [v _TRISD TRISD `VEuc  1 e 1 @136 ]
-[s S111 . 1 `uc 1 SCS 1 0 :1:0 
+[s S117 . 1 `uc 1 SCS 1 0 :1:0 
 `uc 1 LTS 1 0 :1:1 
 `uc 1 HTS 1 0 :1:2 
 `uc 1 OSTS 1 0 :1:3 
 `uc 1 IRCF 1 0 :3:4 
 ]
 "1882
-[s S117 . 1 `uc 1 . 1 0 :4:0 
+[s S123 . 1 `uc 1 . 1 0 :4:0 
 `uc 1 IRCF0 1 0 :1:4 
 `uc 1 IRCF1 1 0 :1:5 
 `uc 1 IRCF2 1 0 :1:6 
 ]
-[u S122 . 1 `S111 1 . 1 0 `S117 1 . 1 0 ]
-[v _OSCCONbits OSCCONbits `VES122  1 e 1 @143 ]
+[u S128 . 1 `S117 1 . 1 0 `S123 1 . 1 0 ]
+[v _OSCCONbits OSCCONbits `VES128  1 e 1 @143 ]
 "1979
 [v _SSPCON2 SSPCON2 `VEuc  1 e 1 @145 ]
 [s S47 . 1 `uc 1 SEN 1 0 :1:0 
@@ -140,10 +144,11 @@
 [v _cen cen `uc  1 e 1 0 ]
 [v _dec dec `uc  1 e 1 0 ]
 [v _uni uni `uc  1 e 1 0 ]
-"59
+[v _temp temp `uc  1 e 1 0 ]
+"66
 [v _main main `(v  1 e 1 0 ]
 {
-"94
+"145
 } 0
 "505 C:\Program Files\Microchip\xc8\v2.31\pic\sources\c90\common\doprnt.c
 [v _sprintf sprintf `(i  1 e 2 0 ]
@@ -188,10 +193,10 @@
 [v ___lwdiv@dividend dividend `ui  1 p 2 2 ]
 "30
 } 0
-"39 C:\Users\swimm\Documents\U\6. Semestre\Digital\Proyectos\Proyectos\Test_Mast.X\Master_Test.c
+"46 C:\Users\swimm\Documents\U\6. Semestre\Digital\Proyectos\Proyectos\Test_Mast.X\Master_Test.c
 [v _setup setup `(v  1 e 1 0 ]
 {
-"57
+"64
 } 0
 "73 C:\Users\swimm\Documents\U\6. Semestre\Digital\Proyectos\Proyectos\Test_Mast.X\LCD.c
 [v _Lcd_Write_String Lcd_Write_String `(v  1 e 1 0 ]
@@ -256,6 +261,24 @@
 [v ___lldiv@dividend dividend `ul  1 p 4 4 ]
 "30
 } 0
+"33 C:\Users\swimm\Documents\U\6. Semestre\Digital\Proyectos\Proyectos\Test_Mast.X\Master_Test.c
+[v _my_delay_s my_delay_s `(uc  1 e 1 0 ]
+{
+[v my_delay_s@tiempo tiempo `uc  1 a 1 wreg ]
+[v my_delay_s@tiempo tiempo `uc  1 a 1 wreg ]
+[v my_delay_s@tiempo tiempo `uc  1 a 1 3 ]
+"38
+} 0
+"15 C:\Program Files\Microchip\xc8\v2.31\pic\sources\c90\common\Umul16.c
+[v ___wmul __wmul `(ui  1 e 2 0 ]
+{
+"17
+[v ___wmul@product product `ui  1 a 2 4 ]
+"15
+[v ___wmul@multiplier multiplier `ui  1 p 2 0 ]
+[v ___wmul@multiplicand multiplicand `ui  1 p 2 2 ]
+"53
+} 0
 "65 C:\Users\swimm\Documents\U\6. Semestre\Digital\Proyectos\Proyectos\Test_Mast.X\I2C.c
 [v _I2C_Master_Write I2C_Master_Write `(v  1 e 1 0 ]
 {
@@ -286,13 +309,13 @@
 {
 "35
 } 0
-"33 C:\Users\swimm\Documents\U\6. Semestre\Digital\Proyectos\Proyectos\Test_Mast.X\Master_Test.c
+"40 C:\Users\swimm\Documents\U\6. Semestre\Digital\Proyectos\Proyectos\Test_Mast.X\Master_Test.c
 [v _Division Division `(v  1 e 1 0 ]
 {
 [v Division@y y `uc  1 a 1 wreg ]
 [v Division@y y `uc  1 a 1 wreg ]
 [v Division@y y `uc  1 a 1 9 ]
-"37
+"44
 } 0
 "5 C:\Program Files\Microchip\xc8\v2.31\pic\sources\c90\common\awmod.c
 [v ___awmod __awmod `(i  1 e 2 0 ]

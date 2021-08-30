@@ -27,7 +27,7 @@
 #include "adc.h"
 #include "PWM.h"
 
-char z, pot, motor, con, val;
+char z, pot, motor, con, val1, val2, sensor, temp;
 
 void __interrupt()isr(void){
     if(PIR1bits.SSPIF == 1){
@@ -54,8 +54,14 @@ void __interrupt()isr(void){
         }else if(!SSPSTATbits.D_nA && SSPSTATbits.R_nW){
             z = SSPBUF;
             BF = 0;
-            SSPBUF = val;
+            if(sensor==0){
+                SSPBUF = val1;
+            }
+            else{
+                SSPBUF = val2;
+            }
             SSPCONbits.CKP = 1;
+            sensor = !sensor;
             __delay_us(250);
             while(SSPSTATbits.BF);
         }
@@ -63,7 +69,12 @@ void __interrupt()isr(void){
         PIR1bits.SSPIF = 0;    
     }
     if (ADIF){
-        pot = ADRESH;
+        if(ADCON0bits.CHS == 0){
+            pot = ADRESH;
+        }
+        else{
+            temp = ADRESH;
+        }
         ADIF = 0;
     }
     if(RBIF){
@@ -91,6 +102,7 @@ void setup(){
     OSCCONbits.OSTS = 0;
     
     PWM_CONFIG();
+    sensor = 0;
     
     if(RA1 == 0){
         ADC_CONFIG(8);
@@ -115,18 +127,23 @@ void main(void) {
     if(RA1 == 0){
         while(1){
             ADC_IF();
-            val = pot;
+            val1 = pot;
+            val2 = temp;
             if(motor==0){
-                CCPR1L = (0x00>>1)+125;
+                CCPR1L = (0x00>>1)+128;
+                PORTBbits.RB2 = 1;
+                PORTBbits.RB3 = 0;
             }
             else{
-                CCPR1L = (0x7f>>1)+125;
+                CCPR1L = (0x7f>>1)+128;
+                //PORTBbits.RB2 = 0;
+                //PORTBbits.RB3 = 1;
             }
         }
     }
     else if(RA1 == 1){
         while(1){
-           val = con;
+           val1 = con;
            CCPR1L = (motor>>1)+125;
         }
     }

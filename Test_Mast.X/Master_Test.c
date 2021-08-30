@@ -28,7 +28,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char pot, con, buffer[], cen, dec, uni;
+char pot, con, buffer[], cen, dec, uni, temp, luz;
+
+char my_delay_s(char tiempo){
+    while(tiempo != 0){
+        tiempo--;
+        __delay_ms(1000);
+    }
+}
 
 void Division(char y){
         cen = (y/100);
@@ -52,43 +59,87 @@ void setup(void) {
     I2C_Master_Init(100000);
     Lcd_Init();
     Lcd_Clear();
-    Lcd_Set_Cursor(1,1);
-    Lcd_Write_String("Pot:  Con: ");
+    Lcd_Set_Cursor(1,0);
+    Lcd_Write_String("Tem Luz t(s) TO");
 }
 
 void main(void){
     setup();
     while(1){
-        
+                
         I2C_Master_Start();
         I2C_Master_Write(0x51);
         pot = I2C_Master_Read(0);
         I2C_Master_Stop();
-        __delay_ms(200);
+        __delay_ms(50);
         
-        Division(pot);
-        Lcd_Set_Cursor(2,1);
-        sprintf(buffer, "%d", cen);
-        Lcd_Write_String(buffer);
+        Division((pot*50/255));
+        Lcd_Set_Cursor(2,13);
+        //sprintf(buffer, "%d", cen);
+        //Lcd_Write_String(buffer);
         sprintf(buffer, "%d", dec);
         Lcd_Write_String(buffer);
-        sprintf(buffer, "%d  ", uni);
+        sprintf(buffer, "%d", uni);
+        Lcd_Write_String(buffer);
+        
+        I2C_Master_Start();
+        I2C_Master_Write(0x51);
+        temp = I2C_Master_Read(0);
+        I2C_Master_Stop();
+        __delay_ms(50);
+        
+        Division(temp);
+        Lcd_Set_Cursor(2,1);
+        //sprintf(buffer, "%d", cen);
+        //Lcd_Write_String(buffer);
+        sprintf(buffer, "%d", dec);
+        Lcd_Write_String(buffer);
+        sprintf(buffer, "%d", uni);
         Lcd_Write_String(buffer);
         
         I2C_Master_Start();
         I2C_Master_Write(0x31);
         con = I2C_Master_Read(0);
         I2C_Master_Stop();
-        __delay_ms(200);
+        __delay_ms(50);
         
         Division(con);
-        //Lcd_Set_Cursor(2,1);
-        sprintf(buffer, "  %d", cen);
+        Lcd_Set_Cursor(2,8);
+        sprintf(buffer, "%d", cen);
         Lcd_Write_String(buffer);
         sprintf(buffer, "%d", dec);
         Lcd_Write_String(buffer);
         sprintf(buffer, "%d", uni);
         Lcd_Write_String(buffer);
+        
+        if(temp>=(pot*50/255)){
+            I2C_Master_Start();
+            I2C_Master_Write(0x30);
+            I2C_Master_Write(0x0f);
+            I2C_Master_Stop();
+            __delay_ms(50);
+        }
+        else if(temp<(pot*50/255)){
+            I2C_Master_Start();
+            I2C_Master_Write(0x30);
+            I2C_Master_Write(0x00);
+            I2C_Master_Stop();
+            __delay_ms(50);
+        }
+        if(luz==0){
+            I2C_Master_Start();
+            I2C_Master_Write(0x50);
+            I2C_Master_Write(0x01);
+            I2C_Master_Stop();
+            my_delay_s(con);
+            
+            I2C_Master_Start();
+            I2C_Master_Write(0x50);
+            I2C_Master_Write(0x00);
+            I2C_Master_Stop();
+            __delay_ms(50);
+        }
+        
         
     }
 }
