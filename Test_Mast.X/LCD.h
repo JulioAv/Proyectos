@@ -24,11 +24,11 @@
 //#endif
 
 #ifndef EN
-#define EN RC7
+#define EN RC1
 #endif
 
 #ifndef RS
-#define RS RC6
+#define RS RC2
 #endif
 
 #ifndef D0

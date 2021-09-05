@@ -27,11 +27,11 @@
 #include "adc.h"
 #include "PWM.h"
 
-char z, pot, motor, con, val1, val2, sensor, temp;
+char z, pot, motor, val, temp, luz, cont;
 
 void __interrupt()isr(void){
     if(PIR1bits.SSPIF == 1){
-
+        
         SSPCONbits.CKP = 0;
        
         if ((SSPCONbits.SSPOV) || (SSPCONbits.WCOL)){
@@ -54,38 +54,35 @@ void __interrupt()isr(void){
         }else if(!SSPSTATbits.D_nA && SSPSTATbits.R_nW){
             z = SSPBUF;
             BF = 0;
-            if(sensor==0){
-                SSPBUF = val1;
-            }
-            else{
-                SSPBUF = val2;
-            }
+            SSPBUF = val;
             SSPCONbits.CKP = 1;
-            sensor = !sensor;
             __delay_us(250);
             while(SSPSTATbits.BF);
         }
-       
         PIR1bits.SSPIF = 0;    
     }
     if (ADIF){
         if(ADCON0bits.CHS == 0){
-            pot = ADRESH;
-        }
-        else{
             temp = ADRESH;
         }
         ADIF = 0;
     }
     if(RBIF){
         if(RB0==0){
-            con++;
+            luz = 1;
         }
-        if(RB1==0){
-            con--;
+        else if(RB0==1){
+            luz = 0;
         }
         RBIF = 0;
     }
+    
+//    if(T0IF){
+//        cont--;
+//        if(cont==0){
+//            luz = 0;
+//        }
+//    }
 }
 
 void setup(){
@@ -93,7 +90,7 @@ void setup(){
     ANSELH = 0x00;
     
     TRISA = 0x03;
-    TRISB = 0x03;
+    TRISB = 0x01;
     TRISC = 0x00;
     TRISD = 0x00;
     
@@ -102,7 +99,7 @@ void setup(){
     OSCCONbits.OSTS = 0;
     
     PWM_CONFIG();
-    sensor = 0;
+    luz = 1;
     
     if(RA1 == 0){
         ADC_CONFIG(8);
@@ -113,10 +110,15 @@ void setup(){
     }
     else if(RA1 == 1){
         INTCONbits.RBIE = 1;
-        IOCB = 0x03;
+        IOCB = 0x01;
         OPTION_REGbits.nRBPU = 0;
         OPTION_REGbits.INTEDG = 1;
-        WPUB = 0x03;
+        WPUB = 0x01;
+        OPTION_REGbits.PS = 0B111;
+        OPTION_REGbits.T0CS = 0;
+        OPTION_REGbits.PSA = 0;
+        INTCONbits.T0IF = 1;
+        TMR0 = 100;
         I2C_Slave_Init(0x30);
     }
     
@@ -127,8 +129,6 @@ void main(void) {
     if(RA1 == 0){
         while(1){
             ADC_IF();
-            val1 = pot;
-            val2 = temp;
             if(motor==0){
                 CCPR1L = (0x00>>1)+128;
                 PORTBbits.RB2 = 1;
@@ -139,12 +139,14 @@ void main(void) {
                 //PORTBbits.RB2 = 0;
                 //PORTBbits.RB3 = 1;
             }
+            val = temp;
         }
     }
     else if(RA1 == 1){
         while(1){
-           val1 = con;
-           CCPR1L = (motor>>1)+125;
+           CCPR1L = (motor>>1)+1;
+           val = luz;
+
         }
     }
 }

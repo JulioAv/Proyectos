@@ -2701,7 +2701,7 @@ void PWM_CONFIG();
 # 28 "Slave_1.c" 2
 
 
-char z, pot, motor, con, val;
+char z, pot, motor, val, temp, luz, cont;
 
 void __attribute__((picinterrupt((""))))isr(void){
     if(PIR1bits.SSPIF == 1){
@@ -2733,22 +2733,30 @@ void __attribute__((picinterrupt((""))))isr(void){
             _delay((unsigned long)((250)*(8000000/4000000.0)));
             while(SSPSTATbits.BF);
         }
-
         PIR1bits.SSPIF = 0;
     }
     if (ADIF){
-        pot = ADRESH;
+        if(ADCON0bits.CHS == 0){
+            temp = ADRESH;
+        }
         ADIF = 0;
     }
     if(RBIF){
         if(RB0==0){
-            con++;
+            luz = 1;
         }
-        if(RB1==0){
-            con--;
+        else if(RB0==1){
+            luz = 0;
         }
         RBIF = 0;
     }
+
+
+
+
+
+
+
 }
 
 void setup(){
@@ -2756,7 +2764,7 @@ void setup(){
     ANSELH = 0x00;
 
     TRISA = 0x03;
-    TRISB = 0x03;
+    TRISB = 0x01;
     TRISC = 0x00;
     TRISD = 0x00;
 
@@ -2765,6 +2773,7 @@ void setup(){
     OSCCONbits.OSTS = 0;
 
     PWM_CONFIG();
+    luz = 1;
 
     if(RA1 == 0){
         ADC_CONFIG(8);
@@ -2775,10 +2784,15 @@ void setup(){
     }
     else if(RA1 == 1){
         INTCONbits.RBIE = 1;
-        IOCB = 0x03;
+        IOCB = 0x01;
         OPTION_REGbits.nRBPU = 0;
         OPTION_REGbits.INTEDG = 1;
-        WPUB = 0x03;
+        WPUB = 0x01;
+        OPTION_REGbits.PS = 0B111;
+        OPTION_REGbits.T0CS = 0;
+        OPTION_REGbits.PSA = 0;
+        INTCONbits.T0IF = 1;
+        TMR0 = 100;
         I2C_Slave_Init(0x30);
     }
 
@@ -2789,19 +2803,24 @@ void main(void) {
     if(RA1 == 0){
         while(1){
             ADC_IF();
-            val = pot;
             if(motor==0){
-                CCPR1L = (0x00>>1)+125;
+                CCPR1L = (0x00>>1)+128;
+                PORTBbits.RB2 = 1;
+                PORTBbits.RB3 = 0;
             }
             else{
-                CCPR1L = (0x7f>>1)+125;
+                CCPR1L = (0x7f>>1)+128;
+
+
             }
+            val = temp;
         }
     }
     else if(RA1 == 1){
         while(1){
-           val = con;
-           CCPR1L = (motor>>1)+125;
+           CCPR1L = (motor>>1)+1;
+           val = luz;
+
         }
     }
 }

@@ -2713,8 +2713,14 @@ void Lcd_Shift_Right(void);
 void Lcd_Shift_Left(void);
 # 26 "Master_Test.c" 2
 
-# 1 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c90\\stdint.h" 1 3
+# 1 "./adc.h" 1
+# 35 "./adc.h"
+void ADC_IF();
+void ADC_CONFIG(int frec);
 # 27 "Master_Test.c" 2
+
+# 1 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c90\\stdint.h" 1 3
+# 28 "Master_Test.c" 2
 
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c90\\stdio.h" 1 3
 
@@ -2813,7 +2819,7 @@ extern int vsscanf(const char *, const char *, va_list) __attribute__((unsupport
 #pragma printf_check(sprintf) const
 extern int sprintf(char *, const char *, ...);
 extern int printf(const char *, ...);
-# 28 "Master_Test.c" 2
+# 29 "Master_Test.c" 2
 
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c90\\stdlib.h" 1 3
 
@@ -2898,10 +2904,11 @@ extern char * ltoa(char * buf, long val, int base);
 extern char * ultoa(char * buf, unsigned long val, int base);
 
 extern char * ftoa(float f, int * status);
-# 29 "Master_Test.c" 2
+# 30 "Master_Test.c" 2
 
 
-char pot, con, buffer[], cen, dec, uni, temp, luz;
+char pot, con, buffer[], cen, dec, uni, temp, luz, presion2, var;
+int frec, tr, rc, presion1;
 
 char my_delay_s(char tiempo){
     while(tiempo != 0){
@@ -2916,12 +2923,81 @@ void Division(char y){
         uni = ((y%100)%10);
 }
 
+void USART_CONFIG(int frec, tr, rc){
+    RCSTAbits.SPEN = 1;
+    TXSTAbits.SYNC = 0;
+    TXSTAbits.TX9 = 0;
+    RCSTAbits.RX9 = 0;
+    switch(frec){
+        case 4:
+            SPBRG = 25;
+            TXSTAbits.BRGH = 1;
+            BAUDCTLbits.BRG16 = 0;
+            break;
+        case 8:
+            SPBRG = 12;
+            TXSTAbits.BRGH = 0;
+            BAUDCTLbits.BRG16 = 0;
+            break;
+    }
+    if(tr==1){
+        TXEN = 1;
+    }
+    else{
+        TXEN = 0;
+    }
+    if(rc == 1){
+        RCSTAbits.CREN = 1;
+        PIE1bits.RCIE = 1;
+        PIR1bits.RCIF = 0;
+    }
+    else{
+        RCSTAbits.CREN = 0;
+    }
+}
+
+void UART_write(unsigned char* word){
+    while (*word != 0){
+        TXREG = (*word);
+        while(!TXSTAbits.TRMT);
+        word++;
+    }
+    return;
+}
+
+void __attribute__((picinterrupt((""))))isr(void){
+    if(ADIF){
+        if(ADCON0bits.CHS == 0){
+            pot = ADRESH;
+        }
+        ADIF = 0;
+    }
+    if(RBIF){
+        if(RB0==1){
+            con++;
+        }
+        else if(RB1==1){
+            con--;
+        }
+        RBIF = 0;
+    }
+    if(RCIF){
+        if(RCREG == '1'){
+            TXREG = (presion1);
+        }
+        else{
+            presion2 = RCREG;
+            RCIF = 0;
+        }
+    }
+}
+
 void setup(void) {
-    ANSEL = 0x00;
+    ANSEL = 0x01;
     ANSELH = 0x00;
 
-    TRISA = 0x00;
-    TRISB = 0x00;
+    TRISA = 0x01;
+    TRISB = 0x03;
     TRISC = 0x00;
     TRISD = 0x00;
 
@@ -2929,22 +3005,45 @@ void setup(void) {
     OSCCONbits.OSTS = 0;
     OSCCONbits.SCS = 1;
 
+    ADC_CONFIG(8);
+    PIE1bits.ADIE = 1;
+    INTCONbits.PEIE = 1;
+    INTCONbits.GIE = 1;
+
+    USART_CONFIG(8 ,1, 1);
+
+    INTCONbits.RBIE = 1;
+    WPUB = 0x03;
+    IOCB = 0x03;
+    OPTION_REGbits.nRBPU = 0;
+
     I2C_Master_Init(100000);
     Lcd_Init();
     Lcd_Clear();
     Lcd_Set_Cursor(1,0);
     Lcd_Write_String("Tem Luz t(s) TO");
+
+    presion2 = 110;
 }
+
 
 void main(void){
     setup();
     while(1){
 
+        ADC_IF();
+
         I2C_Master_Start();
         I2C_Master_Write(0x51);
-        pot = I2C_Master_Read(0);
+        temp = I2C_Master_Read(0);
         I2C_Master_Stop();
-        _delay((unsigned long)((50)*(8000000/4000.0)));
+        _delay((unsigned long)((500)*(8000000/4000.0)));
+
+
+
+
+
+
 
         Division((pot*50/255));
         Lcd_Set_Cursor(2,13);
@@ -2955,13 +3054,8 @@ void main(void){
         sprintf(buffer, "%d", uni);
         Lcd_Write_String(buffer);
 
-        I2C_Master_Start();
-        I2C_Master_Write(0x51);
-        temp = I2C_Master_Read(0);
-        I2C_Master_Stop();
-        _delay((unsigned long)((50)*(8000000/4000.0)));
 
-        Division(temp);
+        Division(temp*397/255);
         Lcd_Set_Cursor(2,1);
 
 
@@ -2972,9 +3066,15 @@ void main(void){
 
         I2C_Master_Start();
         I2C_Master_Write(0x31);
-        con = I2C_Master_Read(0);
+        luz = I2C_Master_Read(0);
         I2C_Master_Stop();
         _delay((unsigned long)((50)*(8000000/4000.0)));
+
+
+
+
+
+
 
         Division(con);
         Lcd_Set_Cursor(2,8);
@@ -2985,21 +3085,30 @@ void main(void){
         sprintf(buffer, "%d", uni);
         Lcd_Write_String(buffer);
 
-        if(temp>=(pot*50/255)){
-            I2C_Master_Start();
-            I2C_Master_Write(0x30);
-            I2C_Master_Write(0x0f);
-            I2C_Master_Stop();
-            _delay((unsigned long)((50)*(8000000/4000.0)));
-        }
-        else if(temp<(pot*50/255)){
-            I2C_Master_Start();
-            I2C_Master_Write(0x30);
-            I2C_Master_Write(0x00);
-            I2C_Master_Stop();
-            _delay((unsigned long)((50)*(8000000/4000.0)));
-        }
+        I2C_Master_Start();
+        I2C_Master_Write(0xEE);
+        I2C_Master_Write(0B11110110);
+        I2C_Master_Stop();
+        _delay((unsigned long)((50)*(8000000/4000.0)));
+
+        I2C_Master_Start();
+        I2C_Master_Write(0xEE | 1);
+        var = I2C_Master_Read(0);
+        presion1 = var<<8;
+        var = I2C_Master_Read(0);
+        I2C_Master_Stop();
+        _delay((unsigned long)((50)*(8000000/4000.0)));
+        presion1 = presion1 & var;
+        presion1 = presion1+968;
+        presion1 = presion1/1000;
+
+
+
         if(luz==0){
+
+            Lcd_Set_Cursor(2, 4);
+            Lcd_Write_String("No");
+
             I2C_Master_Start();
             I2C_Master_Write(0x50);
             I2C_Master_Write(0x01);
@@ -3012,7 +3121,38 @@ void main(void){
             I2C_Master_Stop();
             _delay((unsigned long)((50)*(8000000/4000.0)));
         }
+        else if(luz==1){
+            Lcd_Set_Cursor(2, 4);
+            Lcd_Write_String("Si");
+        }
 
+        if((temp*400/255)>=(pot*50/255)){
+            I2C_Master_Start();
+            I2C_Master_Write(0x30);
+            I2C_Master_Write(0xf0);
+            I2C_Master_Stop();
+            _delay((unsigned long)((50)*(8000000/4000.0)));
+        }
+        else if((temp*400/255)<(pot*50/255)){
+            I2C_Master_Start();
+            I2C_Master_Write(0x30);
+            I2C_Master_Write(0x00);
+            I2C_Master_Stop();
+            _delay((unsigned long)((50)*(8000000/4000.0)));
+        }
+        presion1 = 103;
+        if((presion1)>=(presion2)){
+            Lcd_Clear();
+            Lcd_Set_Cursor(1,1);
+            Lcd_Write_String("PRECAUCION");
+            Lcd_Set_Cursor(2,1);
+            Lcd_Write_String("PRESION ALTA");
+            while((presion1)>=(presion2));
+            Lcd_Clear();
+            Lcd_Set_Cursor(1,0);
+            Lcd_Write_String("Tem Luz t(s) TO");
 
+        }
+# 286 "Master_Test.c"
     }
 }

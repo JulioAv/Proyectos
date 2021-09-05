@@ -2520,11 +2520,11 @@ void Lcd_Shift_Left(void);
 
 
 void Lcd_Cmd(char a) {
-    RC6 = 0;
+    RC2 = 0;
     PORTD = a;
-    RC7 = 1;
+    RC1 = 1;
     _delay((unsigned long)((5)*(8000000/4000.0)));
-    RC7 = 0;
+    RC1 = 0;
 }
 
 void Lcd_Clear(void) {
@@ -2564,15 +2564,15 @@ void Lcd_Init(void) {
 void Lcd_Write_Char(char a) {
 
 
-    RC6 = 1;
+    RC2 = 1;
     PORTD = a;
-    RC7 = 1;
+    RC1 = 1;
     _delay((unsigned long)((40)*(8000000/4000000.0)));
 
 
 
 
-    RC7 = 0;
+    RC1 = 0;
 }
 
 void Lcd_Write_String(char *a) {
