@@ -2984,11 +2984,17 @@ void __attribute__((picinterrupt((""))))isr(void){
     if(RCIF){
         if(RCREG == '1'){
             TXREG = (presion1);
+            while(!TXSTAbits.TRMT);
+            TXREG = temp*397/255;
+            while(!TXSTAbits.TRMT);
+            TXREG = luz;
+            while(!TXSTAbits.TRMT);
         }
         else{
             presion2 = RCREG;
-            RCIF = 0;
+
         }
+        RCIF = 0;
     }
 }
 
@@ -3140,7 +3146,7 @@ void main(void){
             I2C_Master_Stop();
             _delay((unsigned long)((50)*(8000000/4000.0)));
         }
-        presion1 = 103;
+
         if((presion1)>=(presion2)){
             Lcd_Clear();
             Lcd_Set_Cursor(1,1);
@@ -3153,6 +3159,6 @@ void main(void){
             Lcd_Write_String("Tem Luz t(s) TO");
 
         }
-# 286 "Master_Test.c"
+# 292 "Master_Test.c"
     }
 }

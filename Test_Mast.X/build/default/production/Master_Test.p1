@@ -798,290 +798,302 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;Master_Test.c: 108:             TXREG = (presion1);
 [e = _TXREG -> _presion1 `uc ]
 "109
-[; ;Master_Test.c: 109:         }
-}
+[; ;Master_Test.c: 109:             while(!TXSTAbits.TRMT);
 [e $U 173  ]
+[e :U 174 ]
+[e :U 173 ]
+[e $ ! != -> . . _TXSTAbits 0 1 `i -> 0 `i 174  ]
+[e :U 175 ]
 "110
-[; ;Master_Test.c: 110:         else{
+[; ;Master_Test.c: 110:             TXREG = temp*397/255;
+[e = _TXREG -> / * -> _temp `i -> 397 `i -> 255 `i `uc ]
+"111
+[; ;Master_Test.c: 111:             while(!TXSTAbits.TRMT);
+[e $U 176  ]
+[e :U 177 ]
+[e :U 176 ]
+[e $ ! != -> . . _TXSTAbits 0 1 `i -> 0 `i 177  ]
+[e :U 178 ]
+"112
+[; ;Master_Test.c: 112:             TXREG = luz;
+[e = _TXREG -> _luz `uc ]
+"113
+[; ;Master_Test.c: 113:             while(!TXSTAbits.TRMT);
+[e $U 179  ]
+[e :U 180 ]
+[e :U 179 ]
+[e $ ! != -> . . _TXSTAbits 0 1 `i -> 0 `i 180  ]
+[e :U 181 ]
+"114
+[; ;Master_Test.c: 114:         }
+}
+[e $U 182  ]
+"115
+[; ;Master_Test.c: 115:         else{
 [e :U 172 ]
 {
-"111
-[; ;Master_Test.c: 111:             presion2 = RCREG;
+"116
+[; ;Master_Test.c: 116:             presion2 = RCREG;
 [e = _presion2 -> _RCREG `uc ]
-"112
-[; ;Master_Test.c: 112:             RCIF = 0;
-[e = _RCIF -> -> 0 `i `b ]
-"113
-[; ;Master_Test.c: 113:         }
+"118
+[; ;Master_Test.c: 118:         }
 }
-[e :U 173 ]
-"114
-[; ;Master_Test.c: 114:     }
+[e :U 182 ]
+"119
+[; ;Master_Test.c: 119:         RCIF = 0;
+[e = _RCIF -> -> 0 `i `b ]
+"120
+[; ;Master_Test.c: 120:     }
 }
 [e :U 171 ]
-"115
-[; ;Master_Test.c: 115: }
+"121
+[; ;Master_Test.c: 121: }
 [e :UE 164 ]
 }
-"117
-[; ;Master_Test.c: 117: void setup(void) {
+"123
+[; ;Master_Test.c: 123: void setup(void) {
 [v _setup `(v ~T0 @X0 1 ef ]
 {
 [e :U _setup ]
 [f ]
-"118
-[; ;Master_Test.c: 118:     ANSEL = 0x01;
-[e = _ANSEL -> -> 1 `i `uc ]
-"119
-[; ;Master_Test.c: 119:     ANSELH = 0x00;
-[e = _ANSELH -> -> 0 `i `uc ]
-"121
-[; ;Master_Test.c: 121:     TRISA = 0x01;
-[e = _TRISA -> -> 1 `i `uc ]
-"122
-[; ;Master_Test.c: 122:     TRISB = 0x03;
-[e = _TRISB -> -> 3 `i `uc ]
-"123
-[; ;Master_Test.c: 123:     TRISC = 0x00;
-[e = _TRISC -> -> 0 `i `uc ]
 "124
-[; ;Master_Test.c: 124:     TRISD = 0x00;
-[e = _TRISD -> -> 0 `i `uc ]
-"126
-[; ;Master_Test.c: 126:     OSCCONbits.IRCF = 0B111;
-[e = . . _OSCCONbits 0 4 -> -> 7 `i `uc ]
+[; ;Master_Test.c: 124:     ANSEL = 0x01;
+[e = _ANSEL -> -> 1 `i `uc ]
+"125
+[; ;Master_Test.c: 125:     ANSELH = 0x00;
+[e = _ANSELH -> -> 0 `i `uc ]
 "127
-[; ;Master_Test.c: 127:     OSCCONbits.OSTS = 0;
-[e = . . _OSCCONbits 0 3 -> -> 0 `i `uc ]
+[; ;Master_Test.c: 127:     TRISA = 0x01;
+[e = _TRISA -> -> 1 `i `uc ]
 "128
-[; ;Master_Test.c: 128:     OSCCONbits.SCS = 1;
-[e = . . _OSCCONbits 0 0 -> -> 1 `i `uc ]
+[; ;Master_Test.c: 128:     TRISB = 0x03;
+[e = _TRISB -> -> 3 `i `uc ]
+"129
+[; ;Master_Test.c: 129:     TRISC = 0x00;
+[e = _TRISC -> -> 0 `i `uc ]
 "130
-[; ;Master_Test.c: 130:     ADC_CONFIG(8);
-[e ( _ADC_CONFIG (1 -> 8 `i ]
-"131
-[; ;Master_Test.c: 131:     PIE1bits.ADIE = 1;
-[e = . . _PIE1bits 0 6 -> -> 1 `i `uc ]
+[; ;Master_Test.c: 130:     TRISD = 0x00;
+[e = _TRISD -> -> 0 `i `uc ]
 "132
-[; ;Master_Test.c: 132:     INTCONbits.PEIE = 1;
-[e = . . _INTCONbits 0 6 -> -> 1 `i `uc ]
+[; ;Master_Test.c: 132:     OSCCONbits.IRCF = 0B111;
+[e = . . _OSCCONbits 0 4 -> -> 7 `i `uc ]
 "133
-[; ;Master_Test.c: 133:     INTCONbits.GIE = 1;
-[e = . . _INTCONbits 0 7 -> -> 1 `i `uc ]
-"135
-[; ;Master_Test.c: 135:     USART_CONFIG(8 ,1, 1);
-[e ( _USART_CONFIG (3 , , -> 8 `i -> 1 `i -> 1 `i ]
+[; ;Master_Test.c: 133:     OSCCONbits.OSTS = 0;
+[e = . . _OSCCONbits 0 3 -> -> 0 `i `uc ]
+"134
+[; ;Master_Test.c: 134:     OSCCONbits.SCS = 1;
+[e = . . _OSCCONbits 0 0 -> -> 1 `i `uc ]
+"136
+[; ;Master_Test.c: 136:     ADC_CONFIG(8);
+[e ( _ADC_CONFIG (1 -> 8 `i ]
 "137
-[; ;Master_Test.c: 137:     INTCONbits.RBIE = 1;
-[e = . . _INTCONbits 0 3 -> -> 1 `i `uc ]
+[; ;Master_Test.c: 137:     PIE1bits.ADIE = 1;
+[e = . . _PIE1bits 0 6 -> -> 1 `i `uc ]
 "138
-[; ;Master_Test.c: 138:     WPUB = 0x03;
-[e = _WPUB -> -> 3 `i `uc ]
+[; ;Master_Test.c: 138:     INTCONbits.PEIE = 1;
+[e = . . _INTCONbits 0 6 -> -> 1 `i `uc ]
 "139
-[; ;Master_Test.c: 139:     IOCB = 0x03;
-[e = _IOCB -> -> 3 `i `uc ]
-"140
-[; ;Master_Test.c: 140:     OPTION_REGbits.nRBPU = 0;
-[e = . . _OPTION_REGbits 0 5 -> -> 0 `i `uc ]
-"142
-[; ;Master_Test.c: 142:     I2C_Master_Init(100000);
-[e ( _I2C_Master_Init (1 -> -> 100000 `l `ul ]
+[; ;Master_Test.c: 139:     INTCONbits.GIE = 1;
+[e = . . _INTCONbits 0 7 -> -> 1 `i `uc ]
+"141
+[; ;Master_Test.c: 141:     USART_CONFIG(8 ,1, 1);
+[e ( _USART_CONFIG (3 , , -> 8 `i -> 1 `i -> 1 `i ]
 "143
-[; ;Master_Test.c: 143:     Lcd_Init();
-[e ( _Lcd_Init ..  ]
+[; ;Master_Test.c: 143:     INTCONbits.RBIE = 1;
+[e = . . _INTCONbits 0 3 -> -> 1 `i `uc ]
 "144
-[; ;Master_Test.c: 144:     Lcd_Clear();
-[e ( _Lcd_Clear ..  ]
+[; ;Master_Test.c: 144:     WPUB = 0x03;
+[e = _WPUB -> -> 3 `i `uc ]
 "145
-[; ;Master_Test.c: 145:     Lcd_Set_Cursor(1,0);
-[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
+[; ;Master_Test.c: 145:     IOCB = 0x03;
+[e = _IOCB -> -> 3 `i `uc ]
 "146
-[; ;Master_Test.c: 146:     Lcd_Write_String("Tem Luz t(s) TO");
-[e ( _Lcd_Write_String (1 :s 1C ]
+[; ;Master_Test.c: 146:     OPTION_REGbits.nRBPU = 0;
+[e = . . _OPTION_REGbits 0 5 -> -> 0 `i `uc ]
 "148
-[; ;Master_Test.c: 148:     presion2 = 110;
-[e = _presion2 -> -> 110 `i `uc ]
+[; ;Master_Test.c: 148:     I2C_Master_Init(100000);
+[e ( _I2C_Master_Init (1 -> -> 100000 `l `ul ]
 "149
-[; ;Master_Test.c: 149: }
-[e :UE 174 ]
+[; ;Master_Test.c: 149:     Lcd_Init();
+[e ( _Lcd_Init ..  ]
+"150
+[; ;Master_Test.c: 150:     Lcd_Clear();
+[e ( _Lcd_Clear ..  ]
+"151
+[; ;Master_Test.c: 151:     Lcd_Set_Cursor(1,0);
+[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
+"152
+[; ;Master_Test.c: 152:     Lcd_Write_String("Tem Luz t(s) TO");
+[e ( _Lcd_Write_String (1 :s 1C ]
+"154
+[; ;Master_Test.c: 154:     presion2 = 110;
+[e = _presion2 -> -> 110 `i `uc ]
+"155
+[; ;Master_Test.c: 155: }
+[e :UE 183 ]
 }
 [v $root$_main `(v ~T0 @X0 0 e ]
-"152
-[; ;Master_Test.c: 152: void main(void){
+"158
+[; ;Master_Test.c: 158: void main(void){
 [v _main `(v ~T0 @X0 1 ef ]
 {
 [e :U _main ]
 [f ]
-"153
-[; ;Master_Test.c: 153:     setup();
-[e ( _setup ..  ]
-"154
-[; ;Master_Test.c: 154:     while(1){
-[e :U 177 ]
-{
-"156
-[; ;Master_Test.c: 156:         ADC_IF();
-[e ( _ADC_IF ..  ]
-"158
-[; ;Master_Test.c: 158:         I2C_Master_Start();
-[e ( _I2C_Master_Start ..  ]
 "159
-[; ;Master_Test.c: 159:         I2C_Master_Write(0x51);
-[e ( _I2C_Master_Write (1 -> -> 81 `i `ui ]
+[; ;Master_Test.c: 159:     setup();
+[e ( _setup ..  ]
 "160
-[; ;Master_Test.c: 160:         temp = I2C_Master_Read(0);
-[e = _temp -> ( _I2C_Master_Read (1 -> -> 0 `i `us `uc ]
-"161
-[; ;Master_Test.c: 161:         I2C_Master_Stop();
-[e ( _I2C_Master_Stop ..  ]
+[; ;Master_Test.c: 160:     while(1){
+[e :U 186 ]
+{
 "162
-[; ;Master_Test.c: 162:         _delay((unsigned long)((500)*(8000000/4000.0)));
+[; ;Master_Test.c: 162:         ADC_IF();
+[e ( _ADC_IF ..  ]
+"164
+[; ;Master_Test.c: 164:         I2C_Master_Start();
+[e ( _I2C_Master_Start ..  ]
+"165
+[; ;Master_Test.c: 165:         I2C_Master_Write(0x51);
+[e ( _I2C_Master_Write (1 -> -> 81 `i `ui ]
+"166
+[; ;Master_Test.c: 166:         temp = I2C_Master_Read(0);
+[e = _temp -> ( _I2C_Master_Read (1 -> -> 0 `i `us `uc ]
+"167
+[; ;Master_Test.c: 167:         I2C_Master_Stop();
+[e ( _I2C_Master_Stop ..  ]
+"168
+[; ;Master_Test.c: 168:         _delay((unsigned long)((500)*(8000000/4000.0)));
 [e ( __delay (1 -> * -> -> 500 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-"170
-[; ;Master_Test.c: 170:         Division((pot*50/255));
-[e ( _Division (1 -> / * -> _pot `i -> 50 `i -> 255 `i `uc ]
-"171
-[; ;Master_Test.c: 171:         Lcd_Set_Cursor(2,13);
-[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 13 `i `uc ]
-"174
-[; ;Master_Test.c: 174:         sprintf(buffer, "%d", dec);
-[e ( _sprintf (1 , (. , &U _buffer :s 2C -> _dec `i ]
-"175
-[; ;Master_Test.c: 175:         Lcd_Write_String(buffer);
-[e ( _Lcd_Write_String (1 &U _buffer ]
 "176
-[; ;Master_Test.c: 176:         sprintf(buffer, "%d", uni);
-[e ( _sprintf (1 , (. , &U _buffer :s 3C -> _uni `i ]
+[; ;Master_Test.c: 176:         Division((pot*50/255));
+[e ( _Division (1 -> / * -> _pot `i -> 50 `i -> 255 `i `uc ]
 "177
-[; ;Master_Test.c: 177:         Lcd_Write_String(buffer);
-[e ( _Lcd_Write_String (1 &U _buffer ]
+[; ;Master_Test.c: 177:         Lcd_Set_Cursor(2,13);
+[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 13 `i `uc ]
 "180
-[; ;Master_Test.c: 180:         Division(temp*397/255);
-[e ( _Division (1 -> / * -> _temp `i -> 397 `i -> 255 `i `uc ]
+[; ;Master_Test.c: 180:         sprintf(buffer, "%d", dec);
+[e ( _sprintf (1 , (. , &U _buffer :s 2C -> _dec `i ]
 "181
-[; ;Master_Test.c: 181:         Lcd_Set_Cursor(2,1);
-[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
-"184
-[; ;Master_Test.c: 184:         sprintf(buffer, "%d", dec);
-[e ( _sprintf (1 , (. , &U _buffer :s 4C -> _dec `i ]
-"185
-[; ;Master_Test.c: 185:         Lcd_Write_String(buffer);
+[; ;Master_Test.c: 181:         Lcd_Write_String(buffer);
+[e ( _Lcd_Write_String (1 &U _buffer ]
+"182
+[; ;Master_Test.c: 182:         sprintf(buffer, "%d", uni);
+[e ( _sprintf (1 , (. , &U _buffer :s 3C -> _uni `i ]
+"183
+[; ;Master_Test.c: 183:         Lcd_Write_String(buffer);
 [e ( _Lcd_Write_String (1 &U _buffer ]
 "186
-[; ;Master_Test.c: 186:         sprintf(buffer, "%d", uni);
-[e ( _sprintf (1 , (. , &U _buffer :s 5C -> _uni `i ]
+[; ;Master_Test.c: 186:         Division(temp*397/255);
+[e ( _Division (1 -> / * -> _temp `i -> 397 `i -> 255 `i `uc ]
 "187
-[; ;Master_Test.c: 187:         Lcd_Write_String(buffer);
-[e ( _Lcd_Write_String (1 &U _buffer ]
-"189
-[; ;Master_Test.c: 189:         I2C_Master_Start();
-[e ( _I2C_Master_Start ..  ]
+[; ;Master_Test.c: 187:         Lcd_Set_Cursor(2,1);
+[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
 "190
-[; ;Master_Test.c: 190:         I2C_Master_Write(0x31);
-[e ( _I2C_Master_Write (1 -> -> 49 `i `ui ]
+[; ;Master_Test.c: 190:         sprintf(buffer, "%d", dec);
+[e ( _sprintf (1 , (. , &U _buffer :s 4C -> _dec `i ]
 "191
-[; ;Master_Test.c: 191:         luz = I2C_Master_Read(0);
-[e = _luz -> ( _I2C_Master_Read (1 -> -> 0 `i `us `uc ]
+[; ;Master_Test.c: 191:         Lcd_Write_String(buffer);
+[e ( _Lcd_Write_String (1 &U _buffer ]
 "192
-[; ;Master_Test.c: 192:         I2C_Master_Stop();
-[e ( _I2C_Master_Stop ..  ]
+[; ;Master_Test.c: 192:         sprintf(buffer, "%d", uni);
+[e ( _sprintf (1 , (. , &U _buffer :s 5C -> _uni `i ]
 "193
-[; ;Master_Test.c: 193:         _delay((unsigned long)((50)*(8000000/4000.0)));
-[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-"201
-[; ;Master_Test.c: 201:         Division(con);
-[e ( _Division (1 _con ]
-"202
-[; ;Master_Test.c: 202:         Lcd_Set_Cursor(2,8);
-[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 8 `i `uc ]
-"203
-[; ;Master_Test.c: 203:         sprintf(buffer, "%d", cen);
-[e ( _sprintf (1 , (. , &U _buffer :s 6C -> _cen `i ]
-"204
-[; ;Master_Test.c: 204:         Lcd_Write_String(buffer);
+[; ;Master_Test.c: 193:         Lcd_Write_String(buffer);
 [e ( _Lcd_Write_String (1 &U _buffer ]
-"205
-[; ;Master_Test.c: 205:         sprintf(buffer, "%d", dec);
-[e ( _sprintf (1 , (. , &U _buffer :s 7C -> _dec `i ]
-"206
-[; ;Master_Test.c: 206:         Lcd_Write_String(buffer);
-[e ( _Lcd_Write_String (1 &U _buffer ]
-"207
-[; ;Master_Test.c: 207:         sprintf(buffer, "%d", uni);
-[e ( _sprintf (1 , (. , &U _buffer :s 8C -> _uni `i ]
-"208
-[; ;Master_Test.c: 208:         Lcd_Write_String(buffer);
-[e ( _Lcd_Write_String (1 &U _buffer ]
-"210
-[; ;Master_Test.c: 210:         I2C_Master_Start();
+"195
+[; ;Master_Test.c: 195:         I2C_Master_Start();
 [e ( _I2C_Master_Start ..  ]
-"211
-[; ;Master_Test.c: 211:         I2C_Master_Write(0xEE);
-[e ( _I2C_Master_Write (1 -> -> 238 `i `ui ]
-"212
-[; ;Master_Test.c: 212:         I2C_Master_Write(0B11110110);
-[e ( _I2C_Master_Write (1 -> -> 246 `i `ui ]
-"213
-[; ;Master_Test.c: 213:         I2C_Master_Stop();
+"196
+[; ;Master_Test.c: 196:         I2C_Master_Write(0x31);
+[e ( _I2C_Master_Write (1 -> -> 49 `i `ui ]
+"197
+[; ;Master_Test.c: 197:         luz = I2C_Master_Read(0);
+[e = _luz -> ( _I2C_Master_Read (1 -> -> 0 `i `us `uc ]
+"198
+[; ;Master_Test.c: 198:         I2C_Master_Stop();
 [e ( _I2C_Master_Stop ..  ]
-"214
-[; ;Master_Test.c: 214:         _delay((unsigned long)((50)*(8000000/4000.0)));
+"199
+[; ;Master_Test.c: 199:         _delay((unsigned long)((50)*(8000000/4000.0)));
 [e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
+"207
+[; ;Master_Test.c: 207:         Division(con);
+[e ( _Division (1 _con ]
+"208
+[; ;Master_Test.c: 208:         Lcd_Set_Cursor(2,8);
+[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 8 `i `uc ]
+"209
+[; ;Master_Test.c: 209:         sprintf(buffer, "%d", cen);
+[e ( _sprintf (1 , (. , &U _buffer :s 6C -> _cen `i ]
+"210
+[; ;Master_Test.c: 210:         Lcd_Write_String(buffer);
+[e ( _Lcd_Write_String (1 &U _buffer ]
+"211
+[; ;Master_Test.c: 211:         sprintf(buffer, "%d", dec);
+[e ( _sprintf (1 , (. , &U _buffer :s 7C -> _dec `i ]
+"212
+[; ;Master_Test.c: 212:         Lcd_Write_String(buffer);
+[e ( _Lcd_Write_String (1 &U _buffer ]
+"213
+[; ;Master_Test.c: 213:         sprintf(buffer, "%d", uni);
+[e ( _sprintf (1 , (. , &U _buffer :s 8C -> _uni `i ]
+"214
+[; ;Master_Test.c: 214:         Lcd_Write_String(buffer);
+[e ( _Lcd_Write_String (1 &U _buffer ]
 "216
 [; ;Master_Test.c: 216:         I2C_Master_Start();
 [e ( _I2C_Master_Start ..  ]
 "217
-[; ;Master_Test.c: 217:         I2C_Master_Write(0xEE | 1);
-[e ( _I2C_Master_Write (1 -> | -> 238 `i -> 1 `i `ui ]
+[; ;Master_Test.c: 217:         I2C_Master_Write(0xEE);
+[e ( _I2C_Master_Write (1 -> -> 238 `i `ui ]
 "218
-[; ;Master_Test.c: 218:         var = I2C_Master_Read(0);
-[e = _var -> ( _I2C_Master_Read (1 -> -> 0 `i `us `uc ]
+[; ;Master_Test.c: 218:         I2C_Master_Write(0B11110110);
+[e ( _I2C_Master_Write (1 -> -> 246 `i `ui ]
 "219
-[; ;Master_Test.c: 219:         presion1 = var<<8;
-[e = _presion1 << -> _var `i -> 8 `i ]
+[; ;Master_Test.c: 219:         I2C_Master_Stop();
+[e ( _I2C_Master_Stop ..  ]
 "220
-[; ;Master_Test.c: 220:         var = I2C_Master_Read(0);
-[e = _var -> ( _I2C_Master_Read (1 -> -> 0 `i `us `uc ]
-"221
-[; ;Master_Test.c: 221:         I2C_Master_Stop();
-[e ( _I2C_Master_Stop ..  ]
-"222
-[; ;Master_Test.c: 222:         _delay((unsigned long)((50)*(8000000/4000.0)));
+[; ;Master_Test.c: 220:         _delay((unsigned long)((50)*(8000000/4000.0)));
 [e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-"223
-[; ;Master_Test.c: 223:         presion1 = presion1 & var;
-[e = _presion1 & _presion1 -> _var `i ]
-"224
-[; ;Master_Test.c: 224:         presion1 = presion1+968;
-[e = _presion1 + _presion1 -> 968 `i ]
-"225
-[; ;Master_Test.c: 225:         presion1 = presion1/1000;
-[e = _presion1 / _presion1 -> 1000 `i ]
-"229
-[; ;Master_Test.c: 229:         if(luz==0){
-[e $ ! == -> _luz `i -> 0 `i 179  ]
-{
-"231
-[; ;Master_Test.c: 231:             Lcd_Set_Cursor(2, 4);
-[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 4 `i `uc ]
-"232
-[; ;Master_Test.c: 232:             Lcd_Write_String("No");
-[e ( _Lcd_Write_String (1 :s 9C ]
-"234
-[; ;Master_Test.c: 234:             I2C_Master_Start();
+"222
+[; ;Master_Test.c: 222:         I2C_Master_Start();
 [e ( _I2C_Master_Start ..  ]
-"235
-[; ;Master_Test.c: 235:             I2C_Master_Write(0x50);
-[e ( _I2C_Master_Write (1 -> -> 80 `i `ui ]
-"236
-[; ;Master_Test.c: 236:             I2C_Master_Write(0x01);
-[e ( _I2C_Master_Write (1 -> -> 1 `i `ui ]
-"237
-[; ;Master_Test.c: 237:             I2C_Master_Stop();
+"223
+[; ;Master_Test.c: 223:         I2C_Master_Write(0xEE | 1);
+[e ( _I2C_Master_Write (1 -> | -> 238 `i -> 1 `i `ui ]
+"224
+[; ;Master_Test.c: 224:         var = I2C_Master_Read(0);
+[e = _var -> ( _I2C_Master_Read (1 -> -> 0 `i `us `uc ]
+"225
+[; ;Master_Test.c: 225:         presion1 = var<<8;
+[e = _presion1 << -> _var `i -> 8 `i ]
+"226
+[; ;Master_Test.c: 226:         var = I2C_Master_Read(0);
+[e = _var -> ( _I2C_Master_Read (1 -> -> 0 `i `us `uc ]
+"227
+[; ;Master_Test.c: 227:         I2C_Master_Stop();
 [e ( _I2C_Master_Stop ..  ]
+"228
+[; ;Master_Test.c: 228:         _delay((unsigned long)((50)*(8000000/4000.0)));
+[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
+"229
+[; ;Master_Test.c: 229:         presion1 = presion1 & var;
+[e = _presion1 & _presion1 -> _var `i ]
+"230
+[; ;Master_Test.c: 230:         presion1 = presion1+968;
+[e = _presion1 + _presion1 -> 968 `i ]
+"231
+[; ;Master_Test.c: 231:         presion1 = presion1/1000;
+[e = _presion1 / _presion1 -> 1000 `i ]
+"235
+[; ;Master_Test.c: 235:         if(luz==0){
+[e $ ! == -> _luz `i -> 0 `i 188  ]
+{
+"237
+[; ;Master_Test.c: 237:             Lcd_Set_Cursor(2, 4);
+[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 4 `i `uc ]
 "238
-[; ;Master_Test.c: 238:             my_delay_s(con);
-[e ( _my_delay_s (1 _con ]
+[; ;Master_Test.c: 238:             Lcd_Write_String("No");
+[e ( _Lcd_Write_String (1 :s 9C ]
 "240
 [; ;Master_Test.c: 240:             I2C_Master_Start();
 [e ( _I2C_Master_Start ..  ]
@@ -1089,133 +1101,145 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;Master_Test.c: 241:             I2C_Master_Write(0x50);
 [e ( _I2C_Master_Write (1 -> -> 80 `i `ui ]
 "242
-[; ;Master_Test.c: 242:             I2C_Master_Write(0x00);
-[e ( _I2C_Master_Write (1 -> -> 0 `i `ui ]
+[; ;Master_Test.c: 242:             I2C_Master_Write(0x01);
+[e ( _I2C_Master_Write (1 -> -> 1 `i `ui ]
 "243
 [; ;Master_Test.c: 243:             I2C_Master_Stop();
 [e ( _I2C_Master_Stop ..  ]
 "244
-[; ;Master_Test.c: 244:             _delay((unsigned long)((50)*(8000000/4000.0)));
-[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-"245
-[; ;Master_Test.c: 245:         }
-}
-[e $U 180  ]
+[; ;Master_Test.c: 244:             my_delay_s(con);
+[e ( _my_delay_s (1 _con ]
 "246
-[; ;Master_Test.c: 246:         else if(luz==1){
-[e :U 179 ]
-[e $ ! == -> _luz `i -> 1 `i 181  ]
-{
+[; ;Master_Test.c: 246:             I2C_Master_Start();
+[e ( _I2C_Master_Start ..  ]
 "247
-[; ;Master_Test.c: 247:             Lcd_Set_Cursor(2, 4);
-[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 4 `i `uc ]
+[; ;Master_Test.c: 247:             I2C_Master_Write(0x50);
+[e ( _I2C_Master_Write (1 -> -> 80 `i `ui ]
 "248
-[; ;Master_Test.c: 248:             Lcd_Write_String("Si");
-[e ( _Lcd_Write_String (1 :s 10C ]
-"249
-[; ;Master_Test.c: 249:         }
-}
-[e :U 181 ]
-[e :U 180 ]
-"251
-[; ;Master_Test.c: 251:         if((temp*400/255)>=(pot*50/255)){
-[e $ ! >= / * -> _temp `i -> 400 `i -> 255 `i / * -> _pot `i -> 50 `i -> 255 `i 182  ]
-{
-"252
-[; ;Master_Test.c: 252:             I2C_Master_Start();
-[e ( _I2C_Master_Start ..  ]
-"253
-[; ;Master_Test.c: 253:             I2C_Master_Write(0x30);
-[e ( _I2C_Master_Write (1 -> -> 48 `i `ui ]
-"254
-[; ;Master_Test.c: 254:             I2C_Master_Write(0xf0);
-[e ( _I2C_Master_Write (1 -> -> 240 `i `ui ]
-"255
-[; ;Master_Test.c: 255:             I2C_Master_Stop();
-[e ( _I2C_Master_Stop ..  ]
-"256
-[; ;Master_Test.c: 256:             _delay((unsigned long)((50)*(8000000/4000.0)));
-[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-"257
-[; ;Master_Test.c: 257:         }
-}
-[e $U 183  ]
-"258
-[; ;Master_Test.c: 258:         else if((temp*400/255)<(pot*50/255)){
-[e :U 182 ]
-[e $ ! < / * -> _temp `i -> 400 `i -> 255 `i / * -> _pot `i -> 50 `i -> 255 `i 184  ]
-{
-"259
-[; ;Master_Test.c: 259:             I2C_Master_Start();
-[e ( _I2C_Master_Start ..  ]
-"260
-[; ;Master_Test.c: 260:             I2C_Master_Write(0x30);
-[e ( _I2C_Master_Write (1 -> -> 48 `i `ui ]
-"261
-[; ;Master_Test.c: 261:             I2C_Master_Write(0x00);
+[; ;Master_Test.c: 248:             I2C_Master_Write(0x00);
 [e ( _I2C_Master_Write (1 -> -> 0 `i `ui ]
-"262
-[; ;Master_Test.c: 262:             I2C_Master_Stop();
+"249
+[; ;Master_Test.c: 249:             I2C_Master_Stop();
 [e ( _I2C_Master_Stop ..  ]
-"263
-[; ;Master_Test.c: 263:             _delay((unsigned long)((50)*(8000000/4000.0)));
+"250
+[; ;Master_Test.c: 250:             _delay((unsigned long)((50)*(8000000/4000.0)));
 [e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-"264
-[; ;Master_Test.c: 264:         }
+"251
+[; ;Master_Test.c: 251:         }
 }
-[e :U 184 ]
-[e :U 183 ]
-"265
-[; ;Master_Test.c: 265:         presion1 = 103;
-[e = _presion1 -> 103 `i ]
-"266
-[; ;Master_Test.c: 266:         if((presion1)>=(presion2)){
-[e $ ! >= _presion1 -> _presion2 `i 185  ]
-{
-"267
-[; ;Master_Test.c: 267:             Lcd_Clear();
-[e ( _Lcd_Clear ..  ]
-"268
-[; ;Master_Test.c: 268:             Lcd_Set_Cursor(1,1);
-[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
-"269
-[; ;Master_Test.c: 269:             Lcd_Write_String("PRECAUCION");
-[e ( _Lcd_Write_String (1 :s 11C ]
-"270
-[; ;Master_Test.c: 270:             Lcd_Set_Cursor(2,1);
-[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
-"271
-[; ;Master_Test.c: 271:             Lcd_Write_String("PRESION ALTA");
-[e ( _Lcd_Write_String (1 :s 12C ]
-"272
-[; ;Master_Test.c: 272:             while((presion1)>=(presion2));
-[e $U 186  ]
-[e :U 187 ]
-[e :U 186 ]
-[e $ >= _presion1 -> _presion2 `i 187  ]
+[e $U 189  ]
+"252
+[; ;Master_Test.c: 252:         else if(luz==1){
 [e :U 188 ]
+[e $ ! == -> _luz `i -> 1 `i 190  ]
+{
+"253
+[; ;Master_Test.c: 253:             Lcd_Set_Cursor(2, 4);
+[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 4 `i `uc ]
+"254
+[; ;Master_Test.c: 254:             Lcd_Write_String("Si");
+[e ( _Lcd_Write_String (1 :s 10C ]
+"255
+[; ;Master_Test.c: 255:         }
+}
+[e :U 190 ]
+[e :U 189 ]
+"257
+[; ;Master_Test.c: 257:         if((temp*400/255)>=(pot*50/255)){
+[e $ ! >= / * -> _temp `i -> 400 `i -> 255 `i / * -> _pot `i -> 50 `i -> 255 `i 191  ]
+{
+"258
+[; ;Master_Test.c: 258:             I2C_Master_Start();
+[e ( _I2C_Master_Start ..  ]
+"259
+[; ;Master_Test.c: 259:             I2C_Master_Write(0x30);
+[e ( _I2C_Master_Write (1 -> -> 48 `i `ui ]
+"260
+[; ;Master_Test.c: 260:             I2C_Master_Write(0xf0);
+[e ( _I2C_Master_Write (1 -> -> 240 `i `ui ]
+"261
+[; ;Master_Test.c: 261:             I2C_Master_Stop();
+[e ( _I2C_Master_Stop ..  ]
+"262
+[; ;Master_Test.c: 262:             _delay((unsigned long)((50)*(8000000/4000.0)));
+[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
+"263
+[; ;Master_Test.c: 263:         }
+}
+[e $U 192  ]
+"264
+[; ;Master_Test.c: 264:         else if((temp*400/255)<(pot*50/255)){
+[e :U 191 ]
+[e $ ! < / * -> _temp `i -> 400 `i -> 255 `i / * -> _pot `i -> 50 `i -> 255 `i 193  ]
+{
+"265
+[; ;Master_Test.c: 265:             I2C_Master_Start();
+[e ( _I2C_Master_Start ..  ]
+"266
+[; ;Master_Test.c: 266:             I2C_Master_Write(0x30);
+[e ( _I2C_Master_Write (1 -> -> 48 `i `ui ]
+"267
+[; ;Master_Test.c: 267:             I2C_Master_Write(0x00);
+[e ( _I2C_Master_Write (1 -> -> 0 `i `ui ]
+"268
+[; ;Master_Test.c: 268:             I2C_Master_Stop();
+[e ( _I2C_Master_Stop ..  ]
+"269
+[; ;Master_Test.c: 269:             _delay((unsigned long)((50)*(8000000/4000.0)));
+[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
+"270
+[; ;Master_Test.c: 270:         }
+}
+[e :U 193 ]
+[e :U 192 ]
+"272
+[; ;Master_Test.c: 272:         if((presion1)>=(presion2)){
+[e $ ! >= _presion1 -> _presion2 `i 194  ]
+{
 "273
 [; ;Master_Test.c: 273:             Lcd_Clear();
 [e ( _Lcd_Clear ..  ]
 "274
-[; ;Master_Test.c: 274:             Lcd_Set_Cursor(1,0);
-[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
+[; ;Master_Test.c: 274:             Lcd_Set_Cursor(1,1);
+[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
 "275
-[; ;Master_Test.c: 275:             Lcd_Write_String("Tem Luz t(s) TO");
-[e ( _Lcd_Write_String (1 :s 13C ]
+[; ;Master_Test.c: 275:             Lcd_Write_String("PRECAUCION");
+[e ( _Lcd_Write_String (1 :s 11C ]
+"276
+[; ;Master_Test.c: 276:             Lcd_Set_Cursor(2,1);
+[e ( _Lcd_Set_Cursor (2 , -> -> 2 `i `uc -> -> 1 `i `uc ]
 "277
-[; ;Master_Test.c: 277:         }
+[; ;Master_Test.c: 277:             Lcd_Write_String("PRESION ALTA");
+[e ( _Lcd_Write_String (1 :s 12C ]
+"278
+[; ;Master_Test.c: 278:             while((presion1)>=(presion2));
+[e $U 195  ]
+[e :U 196 ]
+[e :U 195 ]
+[e $ >= _presion1 -> _presion2 `i 196  ]
+[e :U 197 ]
+"279
+[; ;Master_Test.c: 279:             Lcd_Clear();
+[e ( _Lcd_Clear ..  ]
+"280
+[; ;Master_Test.c: 280:             Lcd_Set_Cursor(1,0);
+[e ( _Lcd_Set_Cursor (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
+"281
+[; ;Master_Test.c: 281:             Lcd_Write_String("Tem Luz t(s) TO");
+[e ( _Lcd_Write_String (1 :s 13C ]
+"283
+[; ;Master_Test.c: 283:         }
+}
+[e :U 194 ]
+"292
+[; ;Master_Test.c: 292:     }
 }
 [e :U 185 ]
-"286
-[; ;Master_Test.c: 286:     }
-}
-[e :U 176 ]
-[e $U 177  ]
-[e :U 178 ]
-"287
-[; ;Master_Test.c: 287: }
-[e :UE 175 ]
+[e $U 186  ]
+[e :U 187 ]
+"293
+[; ;Master_Test.c: 293: }
+[e :UE 184 ]
 }
 [p f _sprintf 8388736 ]
 [a 9C 78 111 0 ]
